@@ -1,6 +1,3 @@
-target/* 
-/target/ 
-.metadata tar.gz 
-.classpath 
-.project 
+target/
+/target/
 */.settings/
