@@ -11,7 +11,7 @@ public class InstrumentJoiner implements ValueJoiner<ResearchDocument, String, E
     public EnrichedResearchDocument apply(ResearchDocument researchDocument, String instrumentName) {
 
         EnrichedResearchDocument enrichedResearchDocument =
-                new EnrichedResearchDocumentBuilder(researchDocument).setInstrumentName(instrumentName).createEnrichedResearchDocument();
+                new EnrichedResearchDocumentBuilder(researchDocument).setInstrumentName(instrumentName).build();
 
         return enrichedResearchDocument;
     }

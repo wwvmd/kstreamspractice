@@ -1,17 +1,24 @@
 package model;
 
 public class EnrichedResearchDocumentBuilder {
-    private String documentId;
-    private String title;
-    private String author;
-    private String ric;
-    private String instrumentName;
+
+    protected String authorId;
+    protected String documentId;
+    protected String title;
+    protected String authorName;
+    protected String ric;
+    protected String instrumentName;
 
     public EnrichedResearchDocumentBuilder(ResearchDocument researchDocument) {
-        this.setAuthor(researchDocument.getAuthor());
-        this.setDocumentId(researchDocument.getDocumentId());
-        this.setRic(researchDocument.getRic());
-        this.setTitle(researchDocument.getTitle());
+        this.documentId = researchDocument.getDocumentId();
+        this.title = researchDocument.getTitle();
+        this.ric = researchDocument.getRic();
+        this.authorId = researchDocument.getAuthorId();
+
+    }
+
+    public EnrichedResearchDocumentBuilder() {
+
     }
 
     public EnrichedResearchDocumentBuilder setDocumentId(String documentId) {
@@ -24,10 +31,11 @@ public class EnrichedResearchDocumentBuilder {
         return this;
     }
 
-    public EnrichedResearchDocumentBuilder setAuthor(String author) {
-        this.author = author;
+    public EnrichedResearchDocumentBuilder setAuthorName(String authorName) {
+        this.authorName = authorName;
         return this;
     }
+
 
     public EnrichedResearchDocumentBuilder setRic(String ric) {
         this.ric = ric;
@@ -39,8 +47,13 @@ public class EnrichedResearchDocumentBuilder {
         return this;
     }
 
-    public EnrichedResearchDocument createEnrichedResearchDocument() {
-        return new EnrichedResearchDocument(documentId, title, author, ric, instrumentName);
+    public EnrichedResearchDocumentBuilder setAuthorId(String authorId) {
+        this.authorId = authorId;
+        return this;
+    }
+
+    public EnrichedResearchDocument build() {
+        return new EnrichedResearchDocument(this);
     }
 
 

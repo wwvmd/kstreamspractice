@@ -3,22 +3,21 @@ package model;
 public class ResearchDocument {
 
 
+    protected String documentId;
+    protected String title;
+    protected String authorId;
+    protected String ric;
+
     public ResearchDocument() {
 
     }
-
-    public ResearchDocument(String documentId, String title, String author, String ric) {
+    public ResearchDocument(String documentId, String title, String ric, String authorId) {
         this.documentId = documentId;
         this.title = title;
-        this.author = author;
         this.ric = ric;
+        this.authorId = authorId;
 
     }
-
-    protected String documentId;
-    protected String title;
-    protected String author;
-    protected String ric;
 
     public String getDocumentId() {
         return documentId;
@@ -36,20 +35,16 @@ public class ResearchDocument {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public String getRic() {
         return ric;
-    }
-
-    public void setRic(String ric) {
-        this.ric = ric;
     }
 
     @Override
@@ -57,8 +52,9 @@ public class ResearchDocument {
         return "ResearchDocument{" +
                 "documentId=" + documentId +
                 ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", ric='" + ric + '\'' +
+                ", authorId='" + authorId + '\'' +
                 '}';
     }
+
+
 }

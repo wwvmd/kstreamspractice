@@ -3,25 +3,37 @@ package model;
 public class EnrichedResearchDocument extends ResearchDocument {
 
 
-
+    private String authorName;
     private String instrumentName;
 
-    public EnrichedResearchDocument(String documentId, String title, String author, String ric, String instrumentName) {
-        super(documentId, title, author, ric);
-        this.instrumentName = instrumentName;
+    protected EnrichedResearchDocument(ResearchDocument researchDocument,
+                                       String authorName) {
+        this.documentId = researchDocument.getDocumentId();
+        this.title = researchDocument.getTitle();
+        this.authorId = researchDocument.getAuthorId();
+        this.authorName = authorName;
     }
 
-    public void setInstrumentName(String instrumentName) {
-        this.instrumentName = instrumentName;
+    protected EnrichedResearchDocument(EnrichedResearchDocumentBuilder builder) {
+        this.documentId = builder.documentId;
+        this.title = builder.title;
+        this.authorId = builder.authorId;
+        this.authorName = builder.authorName;
+        this.ric = builder.ric;
+        this.instrumentName = builder.instrumentName;
+
+
     }
+
 
     @Override
     public String toString() {
         return "EnrichedResearchDocument{" +
-                "instrumentName='" + instrumentName + '\'' +
-                ", documentId=" + documentId +
+                "authorName='" + authorName + '\'' +
+                ", instrumentName='" + instrumentName + '\'' +
+                ", documentId='" + documentId + '\'' +
                 ", title='" + title + '\'' +
-                ", author='" + author + '\'' +
+                ", authorId='" + authorId + '\'' +
                 ", ric='" + ric + '\'' +
                 '}';
     }
