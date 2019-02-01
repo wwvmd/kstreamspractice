@@ -1,8 +1,7 @@
 
+import model.Employee;
 import model.EnrichedResearchDocument;
 import model.ResearchDocument;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.protocol.types.Field;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.KafkaStreams;
@@ -38,6 +37,7 @@ public class ResearchAuthorNameEnricher {
 
         JsonDeserializer<ResearchDocument> researchDocumentJsonDeserializer =
                 new JsonDeserializer<ResearchDocument>(ResearchDocument.class);
+
         Serde<ResearchDocument> researchDocumentSerde =
                 Serdes.serdeFrom(researchDocumentJsonSerializer, researchDocumentJsonDeserializer);
 
@@ -50,6 +50,11 @@ public class ResearchAuthorNameEnricher {
         Serde<EnrichedResearchDocument> enrichedResearchDocumentSerdes =
                 Serdes.serdeFrom(enrichedResearchDocumentJsonSerializer,enrichedResearchDocumentJsonDeserializer);
 
+        JsonSerializer<Employee> employeeJsonSerializer = new JsonSerializer<Employee>();
+
+        JsonDeserializer<Employee> employeeJsonDeserializer = new JsonDeserializer<Employee>(Employee.class);
+
+        Serde<Employee> employeeSerde = Serdes.serdeFrom(employeeJsonSerializer,employeeJsonDeserializer);
 
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
@@ -64,24 +69,16 @@ public class ResearchAuthorNameEnricher {
         researchDocumentKStream.print(Printed.<String,ResearchDocument>toSysOut());
 
         KStream<String,ResearchDocument> authorKeyResearchDocumentStream = researchDocumentKStream.selectKey((key,
-                                                                                                              value) -> value.getAuthorId());
+                                                                                                              value) -> value.getAnalystGpn());
 
         authorKeyResearchDocumentStream.print(Printed.<String,ResearchDocument>toSysOut());
 
 
-        KTable<String,String> employeeTable = streamsBuilder.table("employee-ingestion-topic",
-                Consumed.with(Serdes.String(),Serdes.String()).withOffsetResetPolicy(Topology.AutoOffsetReset.EARLIEST));
-
-// This is a very basic join
-//        KStream<String,String> joinedStream  = ricKeyedStream.
-//                join(instrumentReferenceTable, // This is the table to join against
-//                (researchDocumentLeft, insrumentReferenceRight) -> researchDocumentLeft.getRic()+"_joinedWith_"+insrumentReferenceRight, Joined.with(Serdes.String(),researchDocumentSerde,Serdes.String()));
+        KTable<String,Employee> employeeTable = streamsBuilder.table("employee-ingestion-topic",
+                Consumed.with(Serdes.String(),employeeSerde).withOffsetResetPolicy(Topology.AutoOffsetReset.EARLIEST));
 
 
-//        ValueJoiner<ResearchDocument, String, EnrichedResearchDocument> instrumentJoiner =
-//                new InstrumentJoiner();
-
-        ValueJoiner<ResearchDocument,String,EnrichedResearchDocument> researchEmployeeJoiner =
+        ValueJoiner<ResearchDocument,Employee,EnrichedResearchDocument> researchEmployeeJoiner =
                 new ResearchEmployeeJoiner();
 
 
@@ -89,7 +86,7 @@ public class ResearchAuthorNameEnricher {
                 join(employeeTable,
                         researchEmployeeJoiner,
                         Joined.with(Serdes.String(),
-                                researchDocumentSerde,Serdes.String())).
+                                researchDocumentSerde,employeeSerde)).
                 mapValues((key,value) -> value);
 
 
@@ -104,6 +101,7 @@ public class ResearchAuthorNameEnricher {
 
         KafkaStreams kafkaStreams = new KafkaStreams(streamsBuilder.build(),config);
 
+        //kafkaStreams.cleanUp();
         kafkaStreams.start();
 
     }

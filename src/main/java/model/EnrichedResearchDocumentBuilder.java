@@ -2,10 +2,10 @@ package model;
 
 public class EnrichedResearchDocumentBuilder {
 
-    protected String authorId;
+    protected String analystGpn;
     protected String documentId;
     protected String title;
-    protected String authorName;
+    protected String analystName;
     protected String ric;
     protected String instrumentName;
 
@@ -13,7 +13,7 @@ public class EnrichedResearchDocumentBuilder {
         this.documentId = researchDocument.getDocumentId();
         this.title = researchDocument.getTitle();
         this.ric = researchDocument.getRic();
-        this.authorId = researchDocument.getAuthorId();
+        this.analystGpn = researchDocument.getAnalystGpn();
 
     }
 
@@ -31,8 +31,8 @@ public class EnrichedResearchDocumentBuilder {
         return this;
     }
 
-    public EnrichedResearchDocumentBuilder setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public EnrichedResearchDocumentBuilder setAnalystName(String analystName) {
+        this.analystName = analystName;
         return this;
     }
 
@@ -47,8 +47,8 @@ public class EnrichedResearchDocumentBuilder {
         return this;
     }
 
-    public EnrichedResearchDocumentBuilder setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public EnrichedResearchDocumentBuilder setAnalystGpn(String analystGpn) {
+        this.analystGpn = analystGpn;
         return this;
     }
 

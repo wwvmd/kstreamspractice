@@ -1,12 +1,13 @@
+import model.Employee;
 import model.EnrichedResearchDocument;
 import model.EnrichedResearchDocumentBuilder;
 import model.ResearchDocument;
 import org.apache.kafka.streams.kstream.ValueJoiner;
 
-public class ResearchEmployeeJoiner implements ValueJoiner<ResearchDocument, String, EnrichedResearchDocument> {
+public class ResearchEmployeeJoiner implements ValueJoiner<ResearchDocument, Employee, EnrichedResearchDocument> {
 
 
-    public EnrichedResearchDocument apply(ResearchDocument researchDocument, String authorName) {
+    public EnrichedResearchDocument apply(ResearchDocument researchDocument, Employee author) {
 
         EnrichedResearchDocumentBuilder enrichedResearchDocumentBuilder = new EnrichedResearchDocumentBuilder();
 
@@ -14,8 +15,8 @@ public class ResearchEmployeeJoiner implements ValueJoiner<ResearchDocument, Str
                 enrichedResearchDocumentBuilder.setTitle(researchDocument.getTitle()).
                 setRic(researchDocument.getRic()).
                 setDocumentId(researchDocument.getDocumentId()).
-                setAuthorId(researchDocument.getAuthorId()).
-                setAuthorName(authorName).build();
+                        setAnalystGpn(researchDocument.getAnalystGpn()).
+                        setAnalystName(author.getName()).build();
 
         return enrichedResearchDocument;
 

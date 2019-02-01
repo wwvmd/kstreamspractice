@@ -76,7 +76,13 @@ public class JsonDeserializer<T> implements Deserializer<T> {
 
         logger.trace("About to deserialize %s",jsonString );
 
-        return gson.fromJson(jsonString,deserializeFrom);
+        try {
+            return gson.fromJson(jsonString, deserializeFrom);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
 
     }
 

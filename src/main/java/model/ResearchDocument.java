@@ -5,17 +5,17 @@ public class ResearchDocument {
 
     protected String documentId;
     protected String title;
-    protected String authorId;
+    protected String analystGpn;
     protected String ric;
 
     public ResearchDocument() {
 
     }
-    public ResearchDocument(String documentId, String title, String ric, String authorId) {
+    public ResearchDocument(String documentId, String title, String ric, String analystGpn) {
         this.documentId = documentId;
         this.title = title;
         this.ric = ric;
-        this.authorId = authorId;
+        this.analystGpn = analystGpn;
 
     }
 
@@ -35,12 +35,12 @@ public class ResearchDocument {
         this.title = title;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public String getAnalystGpn() {
+        return analystGpn;
     }
 
-    public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+    public void setAnalystGpn(String analystGpn) {
+        this.analystGpn = analystGpn;
     }
 
     public String getRic() {
@@ -52,7 +52,7 @@ public class ResearchDocument {
         return "ResearchDocument{" +
                 "documentId=" + documentId +
                 ", title='" + title + '\'' +
-                ", authorId='" + authorId + '\'' +
+                ", analystGpn='" + analystGpn + '\'' +
                 '}';
     }
 
