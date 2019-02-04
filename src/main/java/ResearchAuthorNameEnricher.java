@@ -1,6 +1,7 @@
 
 import model.Employee;
 import model.EnrichedResearchDocument;
+import model.EnrichedResearchDocumentBuilder;
 import model.ResearchDocument;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
@@ -84,7 +85,7 @@ public class ResearchAuthorNameEnricher {
 
         KStream<String,EnrichedResearchDocument> joinedStream  = authorKeyResearchDocumentStream.
                 join(employeeTable,
-                        researchEmployeeJoiner,
+                        (researchDocument, employee) -> new EnrichedResearchDocumentBuilder(researchDocument).setAnalystName(employee.getName()).build(),
                         Joined.with(Serdes.String(),
                                 researchDocumentSerde,employeeSerde)).
                 mapValues((key,value) -> value);
